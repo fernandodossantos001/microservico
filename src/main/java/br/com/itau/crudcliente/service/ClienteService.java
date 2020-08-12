@@ -22,6 +22,7 @@ public class ClienteService {
     }
 
     public Cliente update(Cliente cliente) {
+        findById(cliente.getId());
         return clienteRepository.save(cliente);
     }
 
