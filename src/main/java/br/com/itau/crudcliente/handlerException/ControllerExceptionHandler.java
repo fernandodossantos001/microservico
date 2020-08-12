@@ -4,6 +4,8 @@ package br.com.itau.crudcliente.handlerException;
 import br.com.itau.crudcliente.exception.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -16,6 +18,18 @@ public class ControllerExceptionHandler {
     public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException objectNotFoundException, HttpServletRequest httpServletRequest){
         StandardError standardError = new StandardError(HttpStatus.NOT_FOUND.value(), objectNotFoundException.getMessage(), Calendar.getInstance());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(standardError);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<StandardError> validationViolation(MethodArgumentNotValidException e
+            , HttpServletRequest request) {
+
+        ValidationError validationViolation = new ValidationError(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Erro de validação !", Calendar.getInstance());
+
+        for (FieldError fieldError : e.getBindingResult().getFieldErrors()) {
+            validationViolation.addError(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(validationViolation);
     }
 
     @ExceptionHandler(Exception.class)

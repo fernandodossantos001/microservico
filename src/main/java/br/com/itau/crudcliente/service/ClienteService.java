@@ -1,6 +1,7 @@
 package br.com.itau.crudcliente.service;
 
 import br.com.itau.crudcliente.entity.Cliente;
+import br.com.itau.crudcliente.entity.DTO.ClienteDTO;
 import br.com.itau.crudcliente.repository.ClienteRepository;
 import br.com.itau.crudcliente.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,17 @@ public class ClienteService {
     public void delete(Integer id) {
         findById(id);
         clienteRepository.deleteById(id);
+    }
+
+    public Cliente fromDTO(ClienteDTO clienteDTO) {
+        return new Cliente(clienteDTO.getNomeCliente(),clienteDTO.getEmail(),clienteDTO.getCpf());
+    }
+
+    public Cliente findByEmail(String email) {
+        return clienteRepository.findByEmail(email);
+    }
+
+    public Cliente findByCpf(String cpf) {
+        return clienteRepository.findByCpf(cpf);
     }
 }
