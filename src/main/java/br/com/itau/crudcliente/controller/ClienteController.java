@@ -31,14 +31,14 @@ public class ClienteController {
         Cliente clienteSaved = clienteService.save(cliente);
         return ResponseEntity.ok().body(clienteSaved);
     }
-    @PutMapping("/{id}")
+    @PutMapping("/atualizarCliente/{id}")
     public ResponseEntity<Void> updateClient(@RequestBody @Valid ClienteDTO clienteDTO, @PathVariable Integer id){
         Cliente cliente = clienteService.fromDTO(clienteDTO);
         cliente.setId(id);
         clienteService.update(cliente);
         return ResponseEntity.noContent().build();
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/excluirCliente/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
         clienteService.delete(id);
         return ResponseEntity.noContent().build();
