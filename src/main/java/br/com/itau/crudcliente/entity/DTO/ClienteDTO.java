@@ -9,7 +9,6 @@ import java.io.Serializable;
 
 @ClientInsert
 public class ClienteDTO implements Serializable {
-
     @NotNull(message = "Preenchimento Obrigatório")
     @NotBlank(message = "o campo nomeCliente não pode estar vazio")
     private String nomeCliente;

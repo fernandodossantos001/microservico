@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClienteService {
@@ -15,6 +16,9 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
     public Cliente findById(Integer id) throws ObjectNotFoundException {
         return clienteRepository.findById(id).orElseThrow(() ->new ObjectNotFoundException("Objeto não encontrado id " + id + ", tipo " + Cliente.class.getSimpleName()));
+    }
+    public Optional<Cliente> findByIdValidation(Integer id) throws ObjectNotFoundException {
+        return clienteRepository.findById(id);
     }
 
     public Cliente save(Cliente cliente) {
